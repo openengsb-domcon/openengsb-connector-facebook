@@ -41,7 +41,6 @@ public class FacebookNotifierFactoryTest {
         public void send(FacebookProperties properties, String textContent) {
         }
 
-
         @Override
         public FacebookProperties createFacebookProperties() {
             return props;

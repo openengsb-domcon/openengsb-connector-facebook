@@ -21,12 +21,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
-import java.util.Properties;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openengsb.core.api.AliveState;
 import org.openengsb.core.api.DomainMethodExecutionException;
 import org.slf4j.Logger;
@@ -44,10 +41,10 @@ public class JavaxFacebookAbstraction implements FacebookAbstraction {
             }
             FacebookProperties props = (FacebookProperties) properties;
 
-            String httpsURL2 = "https://graph.facebook.com/" + props.getUserID() + "/feed?" + props.getUserToken();
-            String params2 = "&message=" + textContent;
-            String token2 = sendData(httpsURL2, params2);
-
+            String httpsURL = "https://graph.facebook.com/" + props.getUserID() + "/feed?" + props.getUserToken();
+            String params = "&message=" + textContent;
+            String token = sendData(httpsURL, params);
+            LOGGER.info("sent data with token = {}", token);
         } catch (Exception e) {
             throw new DomainMethodExecutionException(e);
         }
@@ -72,10 +69,10 @@ public class JavaxFacebookAbstraction implements FacebookAbstraction {
 
         while ((inputLine = in.readLine()) != null) {
             output.append(inputLine);
-            System.out.println(inputLine);
+            LOGGER.debug(inputLine);
         }
         in.close();
-        LOGGER.info("facebook has been sent");
+        LOGGER.info("facebook message has been sent");
         return output.toString();
     }
 

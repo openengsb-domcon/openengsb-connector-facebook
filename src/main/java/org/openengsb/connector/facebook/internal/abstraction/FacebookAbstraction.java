@@ -23,11 +23,6 @@ public interface FacebookAbstraction {
 
     void send(FacebookProperties properties, String textContet);
 
-    /**
-     *
-     * @param properties have to contain at least: smtp host, username, and password
-     */
-
     FacebookProperties createFacebookProperties();
 
     AliveState getAliveState();

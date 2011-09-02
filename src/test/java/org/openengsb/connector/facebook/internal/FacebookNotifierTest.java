@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 import org.openengsb.connector.facebook.internal.abstraction.FacebookAbstraction;
 import org.openengsb.connector.facebook.internal.abstraction.FacebookProperties;
+import org.openengsb.connector.facebook.model.TestNotification;
 import org.openengsb.core.api.AliveState;
 import org.openengsb.core.api.DomainMethodExecutionException;
 import org.openengsb.domain.notification.model.Attachment;
@@ -45,7 +46,7 @@ public class FacebookNotifierTest {
         when(mailMock.createFacebookProperties()).thenReturn(propertiesMock);
         FacebookNotifier notifier = new FacebookNotifier("notifier1", mailMock);
 
-        Notification notification = new Notification();
+        Notification notification = new TestNotification();
         notification.setMessage("Content");
         notification.setAttachments(new ArrayList<Attachment>());
 
@@ -85,7 +86,7 @@ public class FacebookNotifierTest {
         when(mailMock.createFacebookProperties()).thenReturn(propertiesMock);
         FacebookNotifier notifier = new FacebookNotifier("notifier1", mailMock);
 
-        Notification notification = new Notification();
+        Notification notification = new TestNotification();
         notification.setRecipient("openengsb.notification.test@gmail.com");
         notification.setSubject("Subject");
         notification.setMessage("Content");

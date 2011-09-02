@@ -21,14 +21,14 @@ import org.apache.commons.lang.StringUtils;
 import org.openengsb.connector.facebook.internal.abstraction.FacebookAbstraction;
 import org.openengsb.connector.facebook.internal.abstraction.FacebookProperties;
 import org.openengsb.core.api.AliveState;
-import org.openengsb.core.common.AbstractOpenEngSBService;
+import org.openengsb.core.common.AbstractOpenEngSBConnectorService;
 import org.openengsb.domain.notification.NotificationDomain;
 import org.openengsb.domain.notification.model.Notification;
 import org.osgi.framework.ServiceRegistration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FacebookNotifier extends AbstractOpenEngSBService implements NotificationDomain {
+public class FacebookNotifier extends AbstractOpenEngSBConnectorService implements NotificationDomain {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FacebookNotifier.class);
 

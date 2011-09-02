@@ -17,8 +17,47 @@
 
 package org.openengsb.connector.facebook.internal.abstraction;
 
-public interface FacebookProperties {
-    void setUserID(String userID);
-    
-    void setUserToken(String userToken);
+import java.util.Properties;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
+public class FacebookProperties {
+    private final Properties properties;
+    private String userID;
+    private String userToken;
+
+    public FacebookProperties() {
+        properties = new Properties();
+    }
+
+    public void setUserID(String userID) {
+        properties.setProperty("userID", userID);
+    }
+
+    public void setUserToken(String userToken) {
+        properties.setProperty("userToken", userToken);
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public String getUserToken() {
+        return userToken;
+    }
+
+    public Properties getProperties() {
+        return properties;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 }

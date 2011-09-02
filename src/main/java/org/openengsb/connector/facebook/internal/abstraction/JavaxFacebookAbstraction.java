@@ -33,102 +33,55 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class JavaxFacebookAbstraction implements FacebookAbstraction {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaxFacebookAbstraction.class);
-
     private AliveState aliveState = AliveState.OFFLINE;
-
 
     @Override
     public void send(FacebookProperties properties, String textContent) {
         try {
-            if (!(properties instanceof FacebookPropertiesImp)) {
+            if (!(properties instanceof FacebookProperties)) {
                 throw new RuntimeException("This implementation works only with internal mail properties");
             }
-            FacebookPropertiesImp props = (FacebookPropertiesImp) properties;
-            
-            String httpsURL2 = "https://graph.facebook.com/"+props.getUserID()+"/feed?"+props.getUserToken();
-		    String params2 = "&message="+textContent;
-		    String token2 = sendData(httpsURL2, params2);
-            
+            FacebookProperties props = (FacebookProperties) properties;
+
+            String httpsURL2 = "https://graph.facebook.com/" + props.getUserID() + "/feed?" + props.getUserToken();
+            String params2 = "&message=" + textContent;
+            String token2 = sendData(httpsURL2, params2);
+
         } catch (Exception e) {
             throw new DomainMethodExecutionException(e);
         }
     }
-    
+
     private static String sendData(String httpsURL, String params) throws Exception {
         LOGGER.info("sending facebook-message");
-	    URL myurl = new URL(httpsURL);
-	    HttpsURLConnection con = (HttpsURLConnection)myurl.openConnection();
-	    if (params != null) {
-	    	con.setDoOutput(true);
-	    	con.setRequestMethod("POST");
-	    	OutputStreamWriter ow = new OutputStreamWriter(con.getOutputStream());
-	    	ow.write(params);
-	    	ow.flush(); 
-	    	ow.close();
-	    }
-	    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        URL myurl = new URL(httpsURL);
+        HttpsURLConnection con = (HttpsURLConnection) myurl.openConnection();
+        if (params != null) {
+            con.setDoOutput(true);
+            con.setRequestMethod("POST");
+            OutputStreamWriter ow = new OutputStreamWriter(con.getOutputStream());
+            ow.write(params);
+            ow.flush();
+            ow.close();
+        }
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
-	    StringBuffer output = new StringBuffer();
-	    String inputLine;
+        StringBuffer output = new StringBuffer();
+        String inputLine;
 
-	    while ((inputLine = in.readLine()) != null)
-	    {
-	    	output.append(inputLine);
-	    	System.out.println(inputLine);
-	    }
-	    in.close();
+        while ((inputLine = in.readLine()) != null) {
+            output.append(inputLine);
+            System.out.println(inputLine);
+        }
+        in.close();
         LOGGER.info("facebook has been sent");
-	    return output.toString();
-	}
+        return output.toString();
+    }
 
     @Override
     public FacebookProperties createFacebookProperties() {
-        return new FacebookPropertiesImp();
-    }
-
-    private static class FacebookPropertiesImp implements FacebookProperties {
-
-        private final Properties properties;
-        private String userID;
-        private String userToken;
-
-        FacebookPropertiesImp() {
-            properties = new Properties();
-        }
-
-        @Override
-        public void setUserID(String userID) {
-            properties.setProperty("userID", userID);
-        }
-
-        @Override
-        public void setUserToken(String userToken) {
-            properties.setProperty("userToken", userToken);
-        }
-
-        public String getUserID() {
-            return userID;
-        }
-
-        public String getUserToken() {
-            return userToken;
-        }
-
-        public Properties getProperties() {
-            return properties;
-        }
-        
-        @Override
-        public boolean equals(Object obj) {
-            return EqualsBuilder.reflectionEquals(this, obj);
-        }
-
-        @Override
-        public int hashCode() {
-            return HashCodeBuilder.reflectionHashCode(this);
-        }
+        return new FacebookProperties();
     }
 
     @Override

@@ -23,8 +23,7 @@ import java.util.Date;
 import org.junit.Test;
 import org.openengsb.connector.facebook.internal.FacebookNotifier;
 import org.openengsb.connector.facebook.internal.abstraction.JavaxFacebookAbstraction;
-//import org.openengsb.connector.facebook.internal.abstraction.MailProperties.SecureMode;
-import org.openengsb.core.api.DomainMethodExecutionException;
+import org.openengsb.connector.facebook.model.TestNotification;
 import org.openengsb.domain.notification.model.Attachment;
 import org.openengsb.domain.notification.model.Notification;
 
@@ -92,7 +91,7 @@ public class FacebookNotifierUT {
     }
 
     private Notification createNotification() {
-        Notification notification = new Notification();
+        Notification notification = new TestNotification();
         notification.setRecipient("openengsb.notification.test@gmail.com");
         notification.setSubject("TestMail send on " + new Date());
         notification.setMessage("This is a test mail");

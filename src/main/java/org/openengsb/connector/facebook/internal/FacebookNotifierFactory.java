@@ -20,31 +20,45 @@ package org.openengsb.connector.facebook.internal;
 import java.util.Map;
 
 import org.openengsb.connector.facebook.internal.abstraction.FacebookAbstractionFactory;
-import org.openengsb.core.api.Domain;
+import org.openengsb.core.api.Connector;
+import org.openengsb.core.api.ekb.EngineeringKnowledgeBaseService;
 import org.openengsb.core.common.AbstractConnectorInstanceFactory;
+import org.openengsb.domain.notification.NotificationDomainEvents;
 
 public class FacebookNotifierFactory extends AbstractConnectorInstanceFactory<FacebookNotifier> {
 
     private FacebookAbstractionFactory factory;
+    @SuppressWarnings("unused")
+    private EngineeringKnowledgeBaseService ekbService;
+    @SuppressWarnings("unused")
+    private NotificationDomainEvents notificationEvents;
 
     @Override
-    public Domain createNewInstance(String id) {
+    public Connector createNewInstance(String id) {
         return new FacebookNotifier(id, factory.newInstance());
     }
 
     @Override
     public void doApplyAttributes(FacebookNotifier notifier, Map<String, String> attributes) {
-    	notifier.createProperties();
+        notifier.createProperties();
         if (attributes.containsKey("userID")) {
-        	notifier.getProperties().setUserID(attributes.get("userID"));
+            notifier.getProperties().setUserID(attributes.get("userID"));
         }
         if (attributes.containsKey("oAuthResult")) {
-        	notifier.getProperties().setUserToken(attributes.get("oAuthResult"));
+            notifier.getProperties().setUserToken(attributes.get("oAuthResult"));
         }
     }
 
     public void setFactory(FacebookAbstractionFactory factory) {
         this.factory = factory;
+    }
+
+    public void setNotificationEvents(NotificationDomainEvents notificationEvents) {
+        this.notificationEvents = notificationEvents;
+    }
+
+    public void setEkbService(EngineeringKnowledgeBaseService ekbService) {
+        this.ekbService = ekbService;
     }
 
 }

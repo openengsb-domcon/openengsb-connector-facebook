@@ -29,7 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class FacebookNotifier extends AbstractOpenEngSBConnectorService implements NotificationDomain {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(FacebookNotifier.class);
 
     private final FacebookAbstraction facebookAbstraction;

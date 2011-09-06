@@ -10,22 +10,21 @@ import org.openengsb.core.api.descriptor.ServiceDescriptor.Builder;
 import org.openengsb.core.common.AbstractConnectorProvider;
 
 public class FacebookConnectorProvider extends AbstractConnectorProvider {
+    private final String applicationID = "102268793189836";
+    private final String applicationSecret = "0a5d734743d6e15594c26247c44e7dd9";
 
     @Override
     public ServiceDescriptor getDescriptor() {
         Map<String, String> params = new HashMap<String, String>();
-        params.put("appID", "102268793189836");
-        params.put("appSecret", "0a5d734743d6e15594c26247c44e7dd9");
+        params.put("appID", applicationID);
+        params.put("appSecret", applicationSecret);
         params.put("scope", "offline_access");
-        // String baseLink1 = "https://www.facebook.com/dialog/oauth?";
-        // String baseLink2 = "https://graph.facebook.com/oauth/access_token?";
 
         // nur die PostParameter mitgeben
-        // String redirectURI = getPage().getPageMap().getName();
-        String baseLink1 = "https://www.facebook.com/dialog/oauth?client_id=102268793189836&scope=offline_access";
+        String baseLink1 = "https://www.facebook.com/dialog/oauth?client_id=" + applicationID + "&scope=offline_access";
         String baseLink2 = "https://graph.facebook.com/oauth/access_token?"
-                + "client_id=102268793189836&scope=offline_access&type=client_cred&"
-                + "client_secret=0a5d734743d6e15594c26247c44e7dd9";
+                + "client_id=" + applicationID + "&scope=offline_access&type=client_cred&"
+                + "client_secret=" + applicationSecret;
         OAuthData oAuthPageData = new OAuthData(params, params, baseLink1, baseLink2, "redirect_uri");
 
         Builder builder = ServiceDescriptor.builder(strings);

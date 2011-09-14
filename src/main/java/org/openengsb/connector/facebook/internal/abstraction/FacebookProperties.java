@@ -24,8 +24,6 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class FacebookProperties {
     private final Properties properties;
-    private String userID;
-    private String userToken;
 
     public FacebookProperties() {
         properties = new Properties();
@@ -40,11 +38,11 @@ public class FacebookProperties {
     }
 
     public String getUserID() {
-        return userID;
+        return properties.get("userID").toString();
     }
 
     public String getUserToken() {
-        return userToken;
+        return properties.getProperty("userToken").toString();
     }
 
     public Properties getProperties() {

@@ -49,6 +49,8 @@
     <bean class="org.openengsb.connector.facebook.internal.FacebookConnectorProvider">
       <property name="id" value="facebook" />
       <property name="bundleContext" ref="blueprintBundleContext" />
+      <property name="facebookApplicationId" value="" />
+      <property name="facebookApplicationSecret" value="" />
     </bean>
   </service>
   

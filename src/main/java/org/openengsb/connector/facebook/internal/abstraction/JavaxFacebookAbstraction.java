@@ -41,7 +41,8 @@ public class JavaxFacebookAbstraction implements FacebookAbstraction {
             }
             FacebookProperties props = (FacebookProperties) properties;
 
-            String httpsURL = "https://graph.facebook.com/" + properties.getUserID() + "/feed?access_token=" + props.getUserToken();
+            String httpsURL =
+                "https://graph.facebook.com/" + properties.getUserID() + "/feed?access_token=" + props.getUserToken();
             String params = "&message=" + textContent;
             String token = sendData(httpsURL, params);
             LOGGER.info("sent data with token = {}", token);

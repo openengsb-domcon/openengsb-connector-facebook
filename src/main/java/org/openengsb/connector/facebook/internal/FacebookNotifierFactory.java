@@ -44,8 +44,8 @@ public class FacebookNotifierFactory extends AbstractConnectorInstanceFactory<Fa
         if (attributes.containsKey("userID")) {
             notifier.getProperties().setUserID(attributes.get("userID"));
         }
-        if (attributes.containsKey("oAuthResult")) {
-            notifier.getProperties().setUserToken(attributes.get("oAuthResult"));
+        if (attributes.containsKey("oAuthToken")) {
+            notifier.getProperties().setUserToken(attributes.get("oAuthToken"));
         }
     }
 

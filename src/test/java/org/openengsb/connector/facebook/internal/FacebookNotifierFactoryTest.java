@@ -66,7 +66,7 @@ public class FacebookNotifierFactoryTest {
     }
 
     @Test
-    public void testCreateFacebookNotifier() throws Exception {
+    public void testCreateFacebookNotifier_shouldWork() throws Exception {
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("userID", "UserID");
         attributes.put("userToken", "UserToken");
@@ -83,7 +83,7 @@ public class FacebookNotifierFactoryTest {
     }
 
     @Test
-    public void testUpdateFacebookNotifier() throws Exception {
+    public void testUpdateFacebookNotifier_shouldWork() throws Exception {
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("userID", "UserID");
         attributes.put("userToken", "UserToken");

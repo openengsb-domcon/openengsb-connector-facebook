@@ -19,7 +19,6 @@ package org.openengsb.connector.facebook.internal;
 
 import java.util.Map;
 
-import org.openengsb.connector.facebook.internal.abstraction.FacebookAbstractionFactory;
 import org.openengsb.core.api.Connector;
 import org.openengsb.core.api.ekb.EngineeringKnowledgeBaseService;
 import org.openengsb.core.common.AbstractConnectorInstanceFactory;
@@ -27,7 +26,6 @@ import org.openengsb.domain.notification.NotificationDomainEvents;
 
 public class FacebookNotifierFactory extends AbstractConnectorInstanceFactory<FacebookNotifier> {
 
-    private FacebookAbstractionFactory factory;
     @SuppressWarnings("unused")
     private EngineeringKnowledgeBaseService ekbService;
     @SuppressWarnings("unused")
@@ -35,7 +33,7 @@ public class FacebookNotifierFactory extends AbstractConnectorInstanceFactory<Fa
 
     @Override
     public Connector createNewInstance(String id) {
-        return new FacebookNotifier(id, factory.newInstance());
+        return new FacebookNotifier(id);
     }
 
     @Override
@@ -47,10 +45,6 @@ public class FacebookNotifierFactory extends AbstractConnectorInstanceFactory<Fa
         if (attributes.containsKey("oAuthToken")) {
             notifier.getProperties().setUserToken(attributes.get("oAuthToken"));
         }
-    }
-
-    public void setFactory(FacebookAbstractionFactory factory) {
-        this.factory = factory;
     }
 
     public void setNotificationEvents(NotificationDomainEvents notificationEvents) {

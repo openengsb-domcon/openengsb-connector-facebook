@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.openengsb.connector.facebook.internal.abstraction;
+package org.openengsb.connector.facebook.internal;
 
 import java.util.Properties;
 

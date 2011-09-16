@@ -30,9 +30,6 @@
       <entry key="connector" value="facebook" />
     </service-properties>
     <bean class="org.openengsb.connector.facebook.internal.FacebookNotifierFactory">
-      <property name="factory">
-        <bean class="org.openengsb.connector.facebook.internal.abstraction.JavaxFacebookAbstractionFactory" />
-      </property>
       <property name="notificationEvents" ref="notificationEvents" />
       <property name="ekbService" ref="ekbService" />
     </bean>

@@ -17,10 +17,16 @@
 
 package org.openengsb.connector.facebook.internal;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
+
 import org.apache.commons.lang.StringUtils;
-import org.openengsb.connector.facebook.internal.abstraction.FacebookAbstraction;
-import org.openengsb.connector.facebook.internal.abstraction.FacebookProperties;
 import org.openengsb.core.api.AliveState;
+import org.openengsb.core.api.DomainMethodExecutionException;
 import org.openengsb.core.common.AbstractOpenEngSBConnectorService;
 import org.openengsb.domain.notification.NotificationDomain;
 import org.openengsb.domain.notification.model.Notification;
@@ -30,30 +36,66 @@ import org.slf4j.LoggerFactory;
 
 public class FacebookNotifier extends AbstractOpenEngSBConnectorService implements NotificationDomain {
     private static final Logger LOGGER = LoggerFactory.getLogger(FacebookNotifier.class);
-
-    private final FacebookAbstraction facebookAbstraction;
     private ServiceRegistration serviceRegistration;
     private FacebookProperties properties;
+    private AliveState aliveState = AliveState.DISCONNECTED;
 
-    public FacebookNotifier(String instanceId, FacebookAbstraction facebookAbstraction) {
+    public FacebookNotifier(String instanceId) {
         super(instanceId);
-        this.facebookAbstraction = facebookAbstraction;
     }
 
     @Override
     public void notify(Notification notification) {
         LOGGER.info("Message: {}", StringUtils.abbreviate(notification.getMessage(), 200));
-        facebookAbstraction.send(properties, notification.getMessage());
+        send(properties, notification.getMessage());
         LOGGER.info("facebook message has been sent");
     }
 
     @Override
     public AliveState getAliveState() {
-        AliveState aliveState = facebookAbstraction.getAliveState();
-        if (aliveState == null) {
-            return AliveState.OFFLINE;
-        }
         return aliveState;
+    }
+    
+    public void send(FacebookProperties properties, String textContent) {
+        try {
+            aliveState = AliveState.CONNECTING;
+            String httpsURL =
+                "https://graph.facebook.com/" + properties.getUserID() + "/feed?access_token="
+                        + properties.getUserToken();
+            String params = "&message=" + textContent;
+            String token = sendData(httpsURL, params);
+            LOGGER.info("sent data with token = {}", token);
+            aliveState = AliveState.ONLINE;
+        } catch (Exception e) {
+            aliveState = AliveState.OFFLINE;
+            throw new DomainMethodExecutionException(e);
+        }
+    }
+
+    private static String sendData(String httpsURL, String params) throws Exception {
+        LOGGER.info("sending facebook-message");
+        URL myurl = new URL(httpsURL);
+        HttpsURLConnection con = (HttpsURLConnection) myurl.openConnection();
+        if (params != null) {
+            con.setDoOutput(true);
+            con.setRequestMethod("POST");
+            OutputStreamWriter ow = new OutputStreamWriter(con.getOutputStream());
+            ow.write(params);
+            ow.flush();
+            ow.close();
+        }
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+        StringBuffer output = new StringBuffer();
+        String inputLine;
+
+        while ((inputLine = in.readLine()) != null) {
+            output.append(inputLine);
+            LOGGER.debug(inputLine);
+        }
+        in.close();
+        LOGGER.info("facebook message has been sent");
+        return output.toString();
     }
 
     public ServiceRegistration getServiceRegistration() {
@@ -69,6 +111,6 @@ public class FacebookNotifier extends AbstractOpenEngSBConnectorService implemen
     }
 
     public void createProperties() {
-        properties = facebookAbstraction.createFacebookProperties();
+        properties = new FacebookProperties();
     }
 }

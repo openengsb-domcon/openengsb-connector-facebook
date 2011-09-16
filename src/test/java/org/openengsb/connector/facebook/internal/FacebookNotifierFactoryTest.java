@@ -69,7 +69,7 @@ public class FacebookNotifierFactoryTest {
     public void testCreateFacebookNotifier_shouldWork() throws Exception {
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("userID", "UserID");
-        attributes.put("userToken", "UserToken");
+        attributes.put("oAuthToken", "UserToken");
 
         FacebookNotifier notifier = (FacebookNotifier) factory.createNewInstance("id");
         factory.applyAttributes(notifier, attributes);
@@ -79,14 +79,14 @@ public class FacebookNotifierFactoryTest {
         assertEquals("id", notifier.getInstanceId());
 
         verify(propertiesMock).setUserID("UserID");
-        //verify(propertiesMock).setUserToken("UserToken");
+        verify(propertiesMock).setUserToken("UserToken");
     }
 
     @Test
     public void testUpdateFacebookNotifier_shouldWork() throws Exception {
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("userID", "UserID");
-        attributes.put("userToken", "UserToken");
+        attributes.put("oAuthToken", "UserToken");
 
         FacebookNotifier notifier = (FacebookNotifier) factory.createNewInstance("id");
         factory.applyAttributes(notifier, attributes);

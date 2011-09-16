@@ -42,7 +42,6 @@ public class FacebookNotifier extends AbstractOpenEngSBConnectorService implemen
 
     @Override
     public void notify(Notification notification) {
-        LOGGER.info("notifying {} via facebook...", notification.getRecipient());
         LOGGER.info("Message: {}", StringUtils.abbreviate(notification.getMessage(), 200));
         facebookAbstraction.send(properties, notification.getMessage());
         LOGGER.info("facebook has been sent");

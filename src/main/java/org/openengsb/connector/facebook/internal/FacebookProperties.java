@@ -24,25 +24,27 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class FacebookProperties {
     private final Properties properties;
+    public static final String USER_ID = "userID";
+    public static final String USER_TOKEN = "userToken";
 
     public FacebookProperties() {
         properties = new Properties();
     }
 
     public void setUserID(String userID) {
-        properties.setProperty("userID", userID);
+        properties.setProperty(USER_ID, userID);
     }
 
     public void setUserToken(String userToken) {
-        properties.setProperty("userToken", userToken);
+        properties.setProperty(USER_TOKEN, userToken);
     }
 
     public String getUserID() {
-        return properties.get("userID").toString();
+        return properties.get(USER_ID).toString();
     }
 
     public String getUserToken() {
-        return properties.getProperty("userToken").toString();
+        return properties.getProperty(USER_TOKEN).toString();
     }
 
     public Properties getProperties() {

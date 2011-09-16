@@ -13,26 +13,26 @@ public class FacebookConnectorProvider extends AbstractConnectorProvider {
     private String facebookApplicationSecret;
 
     @Override
-    public ServiceDescriptor getDescriptor() {        
+    public ServiceDescriptor getDescriptor() {
         Map<String, String> params1 = new HashMap<String, String>();
         params1.put("client_id", facebookApplicationId);
         params1.put("scope", "publish_stream");
-        
+
         Map<String, String> params2 = new HashMap<String, String>();
         params2.put("client_id", facebookApplicationId);
         params2.put("client_secret", facebookApplicationSecret);
-        
+
         String baseLink1 = "https://www.facebook.com/dialog/oauth";
         String baseLink2 = "https://graph.facebook.com/oauth/access_token";
-        
+
         Builder builder = ServiceDescriptor.builder(strings);
 
         builder.id(this.id);
         builder.name("facebook.name").description("facebook.description");
-        builder.attribute(buildAttribute(builder, "userID", "facebook.userID.name",
-            "facebook.userID.description")).attribute(builder.newAttribute().id("oAuthToken")
+        builder.attribute(buildAttribute(builder, FacebookProperties.USER_ID, "facebook.userID.name",
+            "facebook.userID.description")).attribute(builder.newAttribute().id(FacebookProperties.USER_TOKEN)
             .description("facebook.userToken.description").name("facebook.userToken.name")
-            .asOAuth().required().oAuthConfiguration(params1, params2, baseLink1, baseLink2, 
+            .asOAuth().required().oAuthConfiguration(params1, params2, baseLink1, baseLink2,
                 "redirect_uri", "code").build());
 
         return builder.build();

@@ -38,12 +38,11 @@ public class FacebookNotifierFactory extends AbstractConnectorInstanceFactory<Fa
 
     @Override
     public void doApplyAttributes(FacebookNotifier notifier, Map<String, String> attributes) {
-        notifier.createProperties();
-        if (attributes.containsKey("userID")) {
-            notifier.getProperties().setUserID(attributes.get("userID"));
+        if (attributes.containsKey(FacebookProperties.USER_ID)) {
+            notifier.getProperties().setUserID(attributes.get(FacebookProperties.USER_ID));
         }
-        if (attributes.containsKey("oAuthToken")) {
-            notifier.getProperties().setUserToken(attributes.get("oAuthToken"));
+        if (attributes.containsKey(FacebookProperties.USER_TOKEN)) {
+            notifier.getProperties().setUserToken(attributes.get(FacebookProperties.USER_TOKEN));
         }
     }
 

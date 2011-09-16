@@ -42,12 +42,13 @@ public class FacebookNotifier extends AbstractOpenEngSBConnectorService implemen
 
     public FacebookNotifier(String instanceId) {
         super(instanceId);
+        properties = new FacebookProperties();
     }
 
     @Override
     public void notify(Notification notification) {
         LOGGER.info("Message: {}", StringUtils.abbreviate(notification.getMessage(), 200));
-        send(properties, notification.getMessage());
+        send(notification.getMessage());
         LOGGER.info("facebook message has been sent");
     }
 
@@ -55,16 +56,16 @@ public class FacebookNotifier extends AbstractOpenEngSBConnectorService implemen
     public AliveState getAliveState() {
         return aliveState;
     }
-    
-    public void send(FacebookProperties properties, String textContent) {
+
+    public void send(String textContent) {
         try {
             aliveState = AliveState.CONNECTING;
             String httpsURL =
                 "https://graph.facebook.com/" + properties.getUserID() + "/feed?access_token="
                         + properties.getUserToken();
             String params = "&message=" + textContent;
-            String token = sendData(httpsURL, params);
-            LOGGER.info("sent data with token = {}", token);
+            String entryId = sendData(httpsURL, params);
+            LOGGER.info("created wall entry with the id \"{}\"", entryId);
             aliveState = AliveState.ONLINE;
         } catch (Exception e) {
             aliveState = AliveState.OFFLINE;
@@ -105,12 +106,8 @@ public class FacebookNotifier extends AbstractOpenEngSBConnectorService implemen
     public void setServiceRegistration(ServiceRegistration serviceRegistration) {
         this.serviceRegistration = serviceRegistration;
     }
-    
+
     public FacebookProperties getProperties() {
         return properties;
-    }
-
-    public void createProperties() {
-        properties = new FacebookProperties();
     }
 }

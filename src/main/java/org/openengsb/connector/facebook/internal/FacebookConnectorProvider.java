@@ -3,7 +3,6 @@ package org.openengsb.connector.facebook.internal;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.openengsb.core.api.oauth.OAuthData;
 import org.openengsb.core.api.descriptor.AttributeDefinition;
 import org.openengsb.core.api.descriptor.ServiceDescriptor;
 import org.openengsb.core.api.descriptor.ServiceDescriptor.Builder;
@@ -26,8 +25,6 @@ public class FacebookConnectorProvider extends AbstractConnectorProvider {
         String baseLink1 = "https://www.facebook.com/dialog/oauth";
         String baseLink2 = "https://graph.facebook.com/oauth/access_token";
         
-        OAuthData oAuthPageData = new OAuthData(params1, params2, baseLink1, baseLink2, "redirect_uri", "code");
-
         Builder builder = ServiceDescriptor.builder(strings);
 
         builder.id(this.id);
@@ -35,7 +32,8 @@ public class FacebookConnectorProvider extends AbstractConnectorProvider {
         builder.attribute(buildAttribute(builder, "userID", "facebook.userID.name",
             "facebook.userID.description")).attribute(builder.newAttribute().id("oAuthToken")
             .description("facebook.userToken.description").name("facebook.userToken.name")
-            .asOAuth().required().oAuthConfiguration(oAuthPageData).build());
+            .asOAuth().required().oAuthConfiguration(params1, params2, baseLink1, baseLink2, 
+                "redirect_uri", "code").build());
 
         return builder.build();
     }

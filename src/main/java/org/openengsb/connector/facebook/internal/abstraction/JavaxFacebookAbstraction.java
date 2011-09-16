@@ -37,13 +37,9 @@ public class JavaxFacebookAbstraction implements FacebookAbstraction {
     public void send(FacebookProperties properties, String textContent) {
         try {
             aliveState = AliveState.CONNECTING;
-            if (!(properties instanceof FacebookProperties)) {
-                throw new RuntimeException("This implementation works only with internal mail properties");
-            }
-            FacebookProperties props = (FacebookProperties) properties;
-
             String httpsURL =
-                "https://graph.facebook.com/" + properties.getUserID() + "/feed?access_token=" + props.getUserToken();
+                "https://graph.facebook.com/" + properties.getUserID() + "/feed?access_token="
+                        + properties.getUserToken();
             String params = "&message=" + textContent;
             String token = sendData(httpsURL, params);
             LOGGER.info("sent data with token = {}", token);

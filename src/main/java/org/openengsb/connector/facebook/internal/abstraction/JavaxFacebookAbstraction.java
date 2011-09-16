@@ -31,11 +31,12 @@ import org.slf4j.LoggerFactory;
 
 public class JavaxFacebookAbstraction implements FacebookAbstraction {
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaxFacebookAbstraction.class);
-    private AliveState aliveState = AliveState.OFFLINE;
+    private AliveState aliveState = AliveState.DISCONNECTED;
 
     @Override
     public void send(FacebookProperties properties, String textContent) {
         try {
+            aliveState = AliveState.CONNECTING;
             if (!(properties instanceof FacebookProperties)) {
                 throw new RuntimeException("This implementation works only with internal mail properties");
             }
@@ -46,7 +47,9 @@ public class JavaxFacebookAbstraction implements FacebookAbstraction {
             String params = "&message=" + textContent;
             String token = sendData(httpsURL, params);
             LOGGER.info("sent data with token = {}", token);
+            aliveState = AliveState.ONLINE;
         } catch (Exception e) {
+            aliveState = AliveState.OFFLINE;
             throw new DomainMethodExecutionException(e);
         }
     }

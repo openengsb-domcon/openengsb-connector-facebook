@@ -30,9 +30,8 @@
       <entry key="connector" value="facebook" />
     </service-properties>
     <bean class="org.openengsb.connector.facebook.internal.FacebookNotifierFactory">
-      <property name="factory">
-        <bean class="org.openengsb.connector.facebook.internal.abstraction.JavaxFacebookAbstractionFactory" />
-      </property>
+      <property name="notificationEvents" ref="notificationEvents" />
+      <property name="ekbService" ref="ekbService" />
     </bean>
   </service>
 
@@ -47,7 +46,11 @@
     <bean class="org.openengsb.connector.facebook.internal.FacebookConnectorProvider">
       <property name="id" value="facebook" />
       <property name="bundleContext" ref="blueprintBundleContext" />
+      <property name="facebookApplicationId" value="" />
+      <property name="facebookApplicationSecret" value="" />
     </bean>
   </service>
-
+  
+  <reference id="notificationEvents" interface="org.openengsb.domain.notification.NotificationDomainEvents" />
+  <reference id="ekbService" interface="org.openengsb.core.api.ekb.EngineeringKnowledgeBaseService" />
 </blueprint>

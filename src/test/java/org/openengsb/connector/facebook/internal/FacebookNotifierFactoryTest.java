@@ -17,86 +17,52 @@
 
 package org.openengsb.connector.facebook.internal;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openengsb.connector.facebook.internal.abstraction.FacebookAbstraction;
-import org.openengsb.connector.facebook.internal.abstraction.FacebookAbstractionFactory;
-import org.openengsb.connector.facebook.internal.abstraction.FacebookProperties;
-import org.openengsb.core.api.AliveState;
 
 public class FacebookNotifierFactoryTest {
-
-    public static class FacebookAbstractionImp implements FacebookAbstraction {
-        FacebookProperties props = mock(FacebookProperties.class);
-
-        @Override
-        public void send(FacebookProperties properties, String textContent) {
-        }
-
-
-        @Override
-        public FacebookProperties createFacebookProperties() {
-            return props;
-        }
-
-        @Override
-        public AliveState getAliveState() {
-            return null;
-        }
-    }
-
     private FacebookNotifierFactory factory;
 
     @Before
     public void setUp() throws Exception {
         this.factory = new FacebookNotifierFactory();
-        this.factory.setFactory(new FacebookAbstractionFactory() {
-            @Override
-            public FacebookAbstraction newInstance() {
-                return new FacebookAbstractionImp();
-            }
-        });
     }
 
     @Test
-    public void testCreateFacebookNotifier() throws Exception {
+    public void testCreateFacebookNotifier_shouldWork() throws Exception {
         Map<String, String> attributes = new HashMap<String, String>();
-        attributes.put("userID", "UserID");
-        attributes.put("userToken", "UserToken");
+        attributes.put(FacebookProperties.USER_ID, "UserID");
+        attributes.put(FacebookProperties.USER_TOKEN, "UserToken");
 
         FacebookNotifier notifier = (FacebookNotifier) factory.createNewInstance("id");
         factory.applyAttributes(notifier, attributes);
-        FacebookProperties propertiesMock = notifier.getProperties();
+        FacebookProperties properties = notifier.getProperties();
 
-        assertNotNull(notifier);
-        assertEquals("id", notifier.getInstanceId());
-
-        verify(propertiesMock).setUserID("UserID");
-        //verify(propertiesMock).setUserToken("UserToken");
+        assertThat(notifier, notNullValue());
+        assertThat(notifier.getInstanceId(), is("id"));
+        assertThat(properties.getUserID(), is("UserID"));
+        assertThat(properties.getUserToken(), is("UserToken"));
     }
 
     @Test
-    public void testUpdateFacebookNotifier() throws Exception {
+    public void testUpdateFacebookNotifier_shouldWork() throws Exception {
         Map<String, String> attributes = new HashMap<String, String>();
-        attributes.put("userID", "UserID");
-        attributes.put("userToken", "UserToken");
+        attributes.put(FacebookProperties.USER_ID, "UserID");
+        attributes.put(FacebookProperties.USER_TOKEN, "UserToken");
 
         FacebookNotifier notifier = (FacebookNotifier) factory.createNewInstance("id");
         factory.applyAttributes(notifier, attributes);
-        FacebookProperties propertiesMock = notifier.getProperties();
-
-        attributes.put("userID", "otherValue");
-
+        attributes.put(FacebookProperties.USER_ID, "otherValue");
         factory.applyAttributes(notifier, attributes);
-
-        verify(propertiesMock).setUserID("otherValue");
+        FacebookProperties properties = notifier.getProperties();
+        
+        assertThat(properties.getUserID(), is("otherValue"));
     }
 }

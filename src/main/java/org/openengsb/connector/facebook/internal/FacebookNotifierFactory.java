@@ -19,32 +19,39 @@ package org.openengsb.connector.facebook.internal;
 
 import java.util.Map;
 
-import org.openengsb.connector.facebook.internal.abstraction.FacebookAbstractionFactory;
-import org.openengsb.core.api.Domain;
+import org.openengsb.core.api.Connector;
+import org.openengsb.core.api.ekb.EngineeringKnowledgeBaseService;
 import org.openengsb.core.common.AbstractConnectorInstanceFactory;
+import org.openengsb.domain.notification.NotificationDomainEvents;
 
 public class FacebookNotifierFactory extends AbstractConnectorInstanceFactory<FacebookNotifier> {
 
-    private FacebookAbstractionFactory factory;
+    @SuppressWarnings("unused")
+    private EngineeringKnowledgeBaseService ekbService;
+    @SuppressWarnings("unused")
+    private NotificationDomainEvents notificationEvents;
 
     @Override
-    public Domain createNewInstance(String id) {
-        return new FacebookNotifier(id, factory.newInstance());
+    public Connector createNewInstance(String id) {
+        return new FacebookNotifier(id);
     }
 
     @Override
     public void doApplyAttributes(FacebookNotifier notifier, Map<String, String> attributes) {
-    	notifier.createProperties();
-        if (attributes.containsKey("userID")) {
-        	notifier.getProperties().setUserID(attributes.get("userID"));
+        if (attributes.containsKey(FacebookProperties.USER_ID)) {
+            notifier.getProperties().setUserID(attributes.get(FacebookProperties.USER_ID));
         }
-        if (attributes.containsKey("oAuthResult")) {
-        	notifier.getProperties().setUserToken(attributes.get("oAuthResult"));
+        if (attributes.containsKey(FacebookProperties.USER_TOKEN)) {
+            notifier.getProperties().setUserToken(attributes.get(FacebookProperties.USER_TOKEN));
         }
     }
 
-    public void setFactory(FacebookAbstractionFactory factory) {
-        this.factory = factory;
+    public void setNotificationEvents(NotificationDomainEvents notificationEvents) {
+        this.notificationEvents = notificationEvents;
+    }
+
+    public void setEkbService(EngineeringKnowledgeBaseService ekbService) {
+        this.ekbService = ekbService;
     }
 
 }

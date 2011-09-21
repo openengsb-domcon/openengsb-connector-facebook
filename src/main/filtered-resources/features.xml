@@ -23,9 +23,7 @@
   xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.0.0 http://karaf.apache.org/xmlns/features/v1.0.0" >
   <feature name="openengsb-connector-facebook" version="${project.version}" >
     <feature version="${openengsb.version.range}">openengsb-core</feature>
-    <feature version="${openengsb.domain.notificiation.range}">openengsb-domain-notification</feature>
-	<!--<bundle dependency="true">mvn:com.google.code.facebookapi/facebook-java-api/3.0.4</bundle>
-	<bundle dependency="true">mvn:javax.servlet/servlet-api/2.5</bundle>-->
+    <feature version="${openengsb.domain.range}">openengsb-domain-notification</feature>
     <bundle>mvn:org.openengsb.connector/openengsb-connector-facebook/${project.version}</bundle>
   </feature>
 </features>

@@ -20,14 +20,11 @@ package org.openengsb.connector.facebook.internal;
 import java.util.Map;
 
 import org.openengsb.core.api.Connector;
-import org.openengsb.core.api.ekb.EngineeringKnowledgeBaseService;
 import org.openengsb.core.common.AbstractConnectorInstanceFactory;
 import org.openengsb.domain.notification.NotificationDomainEvents;
 
 public class FacebookNotifierFactory extends AbstractConnectorInstanceFactory<FacebookNotifier> {
 
-    @SuppressWarnings("unused")
-    private EngineeringKnowledgeBaseService ekbService;
     @SuppressWarnings("unused")
     private NotificationDomainEvents notificationEvents;
 
@@ -49,9 +46,4 @@ public class FacebookNotifierFactory extends AbstractConnectorInstanceFactory<Fa
     public void setNotificationEvents(NotificationDomainEvents notificationEvents) {
         this.notificationEvents = notificationEvents;
     }
-
-    public void setEkbService(EngineeringKnowledgeBaseService ekbService) {
-        this.ekbService = ekbService;
-    }
-
 }

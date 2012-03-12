@@ -21,13 +21,8 @@ import java.util.Map;
 
 import org.openengsb.core.api.Connector;
 import org.openengsb.core.common.AbstractConnectorInstanceFactory;
-import org.openengsb.domain.notification.NotificationDomainEvents;
 
 public class FacebookNotifierFactory extends AbstractConnectorInstanceFactory<FacebookNotifier> {
-
-    @SuppressWarnings("unused")
-    private NotificationDomainEvents notificationEvents;
-
     @Override
     public Connector createNewInstance(String id) {
         return new FacebookNotifier(id);
@@ -41,9 +36,5 @@ public class FacebookNotifierFactory extends AbstractConnectorInstanceFactory<Fa
         if (attributes.containsKey(FacebookProperties.USER_TOKEN)) {
             notifier.getProperties().setUserToken(attributes.get(FacebookProperties.USER_TOKEN));
         }
-    }
-
-    public void setNotificationEvents(NotificationDomainEvents notificationEvents) {
-        this.notificationEvents = notificationEvents;
     }
 }

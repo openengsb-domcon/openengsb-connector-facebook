@@ -29,9 +29,7 @@
       <entry key="domain" value="notification" />
       <entry key="connector" value="facebook" />
     </service-properties>
-    <bean class="org.openengsb.connector.facebook.internal.FacebookNotifierFactory">
-      <property name="notificationEvents" ref="notificationEvents" />
-    </bean>
+    <bean class="org.openengsb.connector.facebook.internal.FacebookNotifierFactory" />
   </service>
 
   <service>
@@ -50,5 +48,4 @@
     </bean>
   </service>
   
-  <reference id="notificationEvents" interface="org.openengsb.domain.notification.NotificationDomainEvents" />
 </blueprint>
